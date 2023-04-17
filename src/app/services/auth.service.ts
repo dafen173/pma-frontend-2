@@ -4,6 +4,7 @@ import { User } from '../models/user-interface';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { NewUser } from '../models/new-user-interface';
 import { CreatedUser } from '../models/res-created-user';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class AuthService {
   );
 
   getCurrentUser(): Observable<CreatedUser> {
-    return this.http.get<CreatedUser>('http://127.0.0.1:3000/users');
+    return this.http.get<CreatedUser>(`${environment.apiUrl}/users`);
   }
 
   setCurrentUser(currentUser: CreatedUser | null): void {
@@ -34,7 +35,7 @@ export class AuthService {
   }
 
   register(newUser: NewUser): Observable<CreatedUser>{
-    return this.http.post<CreatedUser>('http://127.0.0.1:3000/auth/signup', newUser)
+    return this.http.post<CreatedUser>(`${environment.apiUrl}/auth/signup`, newUser)
       .pipe(
         tap(
           ({_id}) => {
@@ -48,7 +49,7 @@ export class AuthService {
   }
 
   login(user: User): Observable<{token: string}> {
-    return this.http.post<{token: string}>('http://127.0.0.1:3000/auth/signin', user)
+    return this.http.post<{token: string}>(`${environment.apiUrl}/auth/signin`, user)
       .pipe(
         tap(
           ({token}) => {
