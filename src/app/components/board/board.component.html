@@ -1,0 +1,114 @@
+<div class="board" *ngIf="data$ | async as data">
+    <div class="board-header-container">
+        <app-inline-form
+            class="edit-board-form"
+            [defaultText]="BOARD_NAME + data.board.title"
+            [title]="data.board.title"
+            (handleSubmit)="updateBoardName($event)"
+        ></app-inline-form>
+        <div class="delete-board" (click)="deleteBoard()">Delete board</div>
+    </div>
+    <div class="columns">
+        <div class="column" *ngFor="let column of data.columns">
+            <div class="column-title">
+                <app-inline-form
+                    class="edit-column-form"
+                    [defaultText]="column.title"
+                    [title]="column.title"
+                    (handleSubmit)="updateColumnName($event, column._id)"
+                    [hasCancelButton]="true"
+                    [hasOutsideSubmitButton]="true"
+                ></app-inline-form>
+                <img
+                    src="../../../assets/img/close_icon.svg"
+                    alt="close sign"
+                    class="column-delete-icon"
+                    (click)="deleteColumn(column._id)"
+                >
+            </div>
+            <div
+                *ngFor="let task of getTasksByColumn(column._id, data.tasks)"
+                class="task flex justify-between"
+            >
+                <div
+                    class="w-11/12"
+                    (click)="setCurrentColumnId(column._id)"
+                    (click)="setCurrentTaskId(task._id)"
+                    (click)="modalService.openUpdateTask()"
+                >
+                    {{task.title}}
+                </div>
+                <img
+                    src="../../../assets/img/close_icon.svg"
+                    alt="close sign"
+                    class="column-delete-icon"
+                    (click)="deleteTask(task._id, column._id)"
+                >
+            </div>
+            <button
+                class="inline-form-button create-column-form-button text-black"
+                (click)="modalService.openCreateTask()"
+                (click)="setCurrennColumnId(column._id)"
+            >Create a Task</button>
+        </div>
+        <button
+            class="create-column-form create-column-form-button bg-emerald-800"
+            (click)="modalService.open()"
+        >Create a column</button>
+    </div>
+    <div *ngIf="modalService.isVisible$ | async">
+        <div
+            class="bg-black/50 fixed top-0 right-0 left-0 bottom-0"
+            (click)="modalService.close()"
+        ></div>
+        <div
+            class="w-[500px] absolute top-16 rounded p-6 bg-emerald-600 left-1/2 -translate-x-1/2"
+        >
+            <app-inline-form
+                class="create-column-form"
+                defaultText="Create a column"
+                [hasButton]="true"
+                inputPlaceholder="Input column name"
+                (handleSubmit)="createColumn($event)"
+            ></app-inline-form>
+        </div>
+    </div>
+    <div *ngIf="modalService.addTaskBtnIsVisible$ | async">
+        <div
+            class="bg-black/50 fixed top-0 right-0 left-0 bottom-0"
+            (click)="modalService.closeCreateTask()"
+        ></div>
+        <div
+            class="w-[500px] absolute top-16 rounded p-6 bg-emerald-600 left-1/2 -translate-x-1/2"
+            *ngIf="currentColumnId$ | async as currentColumnId"
+        >
+            <app-inline-form
+                class="create-column-form"
+                defaultText="Create a task"
+                [hasButton]="true"
+                inputPlaceholder="Input task name"
+                (handleSubmit)="createTask($event, currentColumnId)"
+            ></app-inline-form>
+        </div>
+    </div>
+    <div *ngIf="modalService.updateTaskFormIsVisible$ | async">
+        <div
+            class="bg-black/50 fixed top-0 right-0 left-0 bottom-0"
+            (click)="modalService.closeUpdateTask()"
+        ></div>
+        <div
+            class="w-[500px] absolute top-16 rounded p-6 bg-emerald-600 left-1/2 -translate-x-1/2"
+            *ngIf="editedData$ | async as editedData"
+        >
+            <h2 class="text-white">Edit the task</h2>
+            <app-modal-form
+                class="create-column-form"
+                [defaultText]="editedData.task.title"
+                [title]="editedData.task.title"
+                [hasButton]="true"
+                inputPlaceholder="Input task name"
+                (handleSubmit)="updateTaskName($event, editedData.column._id, editedData.task._id)"
+            ></app-modal-form>
+        </div>
+    </div>
+</div>

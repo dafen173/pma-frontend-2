@@ -1,0 +1,57 @@
+<div
+    class="inline-form-container"
+    [ngClass]="{ 'inline-form-container-editing': isEditing }"
+    (click)="activeEditing()"
+>
+    <div
+        class="inline-form-text"
+        *ngIf="!isEditing"
+    >
+        {{ defaultText }}
+    </div>
+
+    <form
+        *ngIf="isEditing"
+        [formGroup]="form"
+        (ngSubmit)="onSubmit()"
+        class="inline-form"
+    >
+        <input
+            type="text"
+            formControlName="title"
+            class="inline-form-input text-black"
+            [placeholder]="inputPlaceholder"
+            *ngIf="inputType === 'input'"
+        >
+        <textarea
+            *ngIf="hasTextArea"
+            formControlName="title"
+            class="text-area"
+            [placeholder]="inputTextPlaceholder"
+        ></textarea>
+        <button
+            *ngIf="hasButton"
+            type="submit"
+            [disabled]="form.invalid"
+            class="inline-form-button ml-2"
+        >
+            {{ buttonText }}
+        </button>
+    </form>
+</div>
+<button
+    *ngIf="hasCancelButton && isEditing"
+    type="button"
+    class="inline-form-button-cancel ml-6"
+    (click)="onCancel()"
+>
+    {{ cancelButtonText }}
+</button>
+<button
+    *ngIf="hasOutsideSubmitButton && isEditing"
+    type="button"
+    class="inline-form-button ml-6"
+    (click)="onSubmit()"
+>
+    {{ outsideSubmitButtonText }}
+</button>

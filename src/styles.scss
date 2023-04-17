@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+    width: 100%;
+    max-width: 1024px;
+    margin: auto;
+}
+
+@import './styles/boards.css';
+@import './styles/board.css';
+@import './styles/topbar.css';
+@import './styles/createBoard.css';
+@import './styles/createColumn.css';
+@import './styles/createTask.css';
+@import './styles/editBoardForm.css';
+@import './styles/taskModal.css';
+@import './styles/columnSelect.css';
+

@@ -1,0 +1,99 @@
+<div class="flex justify-center">
+    <div class="h-screen flex flex-col justify-center max-w-xs">
+        <form
+            [formGroup] ="form"
+            (ngSubmit)="submit()"
+            class="mt-4 mb-4"
+        >
+            <input
+                type="text"
+                class="border w-full py-2 px-4 mb-2"
+                placeholder="Name*"
+                formControlName="name"
+                [ngClass]="{'border-pink-500 text-pink-600':
+                form.get('name')?.invalid && form.get('name')?.touched}"
+            >
+            <p
+                class="text-red-600 font-medium mb-2"
+                *ngIf="form.get('name')?.invalid && form.get('name')?.touched"
+            >
+                <span *ngIf="form.get('name')?.errors?.required">
+                    This field should not be an empty!
+                </span>
+                <span
+                    *ngIf="form.get('name')?.errors?.minlength
+                    && form.get('name')?.errors?.minlength.requiredLength"
+                >
+                    Minimum name length should be {{form.get('name')?.errors?.minlength.requiredLength}} chars.
+                    Now it is {{form.get('name')?.errors?.minlength.actualLength}}.
+                </span>
+            </p>
+
+            <input
+                type="email"
+                class="border w-full py-2 px-4 mb-2"
+                placeholder="Login(email)*"
+                formControlName="login"
+                [ngClass]="{'border-pink-500 text-pink-600':
+                form.get('login')?.invalid && form.get('login')?.touched}"
+            >
+            <p
+                class="text-red-600 font-medium mb-2"
+                *ngIf="form.get('login')?.invalid && form.get('login')?.touched"
+            >
+                <span *ngIf="form.get('login')?.errors?.required">
+                    This field should not be an empty!
+                </span>
+                <span *ngIf="form.get('login')?.errors?.email">
+                    Input the correct login(email)!
+                </span>
+            </p>
+
+
+            <input
+                type="text"
+                class="border w-full py-2 px-4 mb-2"
+                placeholder="Password*"
+                formControlName="password"
+                [ngClass]="{'border-pink-500 text-pink-600':
+                form.get('password')?.invalid && form.get('password')?.touched}"
+            >
+            <p
+                class="text-red-600 font-medium mb-2"
+                *ngIf="form.get('password')?.invalid && form.get('password')?.touched"
+            >
+                <span *ngIf="form.get('password')?.errors?.required">
+                    This field should not be an empty!
+                </span>
+                <span
+                    *ngIf="form.get('password')?.errors?.minlength
+                    && form.get('password')?.errors?.minlength.requiredLength"
+                >
+                    Minimum name length should be {{form.get('password')?.errors?.minlength.requiredLength}} chars.
+                    Now it is {{form.get('password')?.errors?.minlength.actualLength}}.
+                </span>
+            </p>
+
+            <input
+                type="text"
+                class="border w-full py-2 px-4 mb-2"
+                placeholder="Confirm Password*"
+                formControlName="confirmPassword"
+                [ngClass]="{'border-pink-500 text-pink-600':
+                form.value.password !== form.value.confirmPassword}"
+            >
+            <p
+                class="text-red-600 font-medium mb-2"
+                *ngIf="form.value.password !== form.value.confirmPassword && form.get('confirmPassword')?.touched"
+            >
+                Not match!
+            </p>
+
+            <button
+                type="submit"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
+                [disabled]="form.invalid || form.disabled || form.value.password !== form.value.confirmPassword"
+            >Registry</button>
+        </form>
+    </div>
+</div>
