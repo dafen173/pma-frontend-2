@@ -8,3 +8,6 @@ import { Component } from '@angular/core';
 export class PmaFooterComponent {
 
 }
+
+
+// ng build --output-path docs --base-href /pma-frontend-2/
