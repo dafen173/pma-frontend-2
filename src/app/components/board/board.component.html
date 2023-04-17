@@ -21,6 +21,7 @@
                 ></app-inline-form>
                 <img
                     src="../../../assets/img/close_icon.svg"
+                    src="./assets/img/close_icon.svg"
                     alt="close sign"
                     class="column-delete-icon"
                     (click)="deleteColumn(column._id)"
@@ -39,7 +40,7 @@
                     {{task.title}}
                 </div>
                 <img
-                    src="../../../assets/img/close_icon.svg"
+                    src="./assets/img/close_icon.svg"
                     alt="close sign"
                     class="column-delete-icon"
                     (click)="deleteTask(task._id, column._id)"
@@ -112,3 +113,11 @@
         </div>
     </div>
 </div>
+
+
+<!-- <img
+    src="../../../assets/img/close_icon.svg"
+    alt="close sign"
+    class="column-delete-icon"
+    (click)="deleteColumn(column._id)"
+> -->
